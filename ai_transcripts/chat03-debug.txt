@@ -1,0 +1,37 @@
+Traceback (most recent call last):
+File "/home/dev/dev/IoT-Anomaly-Detection/scripts/generate_data.py", line 380, in <module>
+generate_and_save_data_to_csv(
+File "/home/dev/dev/IoT-Anomaly-Detection/scripts/generate_data.py", line 369, in generate_and_save_data_to_csv
+data = generator.generate_normal_data(
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+File "/home/dev/dev/IoT-Anomaly-Detection/scripts/generate_data.py", line 341, in generate_normal_data
+door_state, self.door_open_duration_counter = generate_door_state(
+^^^^^^^^^^^^^^^^^^^^
+File "/home/dev/dev/IoT-Anomaly-Detection/scripts/generate_data.py", line 240, in generate_door_state
+if is_daytime(current_time):
+^^^^^^^^^^^^^^^^^^^^^^^^
+File "/home/dev/dev/IoT-Anomaly-Detection/scripts/generate_data.py", line 181, in is_daytime
+return sunrise <= current_time <= sunset
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: can't compare offset-naive and offset-aware datetimes
+
+The error occurs because you are comparing a timezone-aware datetime (likely sunrise or sunset) with a timezone-naive datetime (current_time). In Python, you cannot directly compare these two types.
+
+To fix this, ensure that all datetime objects involved in the comparison are either all timezone-aware or all timezone-naive. The best practice is to make them all timezone-aware.
+
+I will update the code in generate_data.py so that current_time is made timezone-aware (matching the timezone of sunrise/sunset) before the comparison in the is_daytime function.
+
+Read generate_data.py, lines 171 to 191
+
+Read generate_data.py, lines 1 to 30
+
+Read generate_data.py, lines 170 to 180
+
+Read generate_data.py, lines 191 to 200
+
+generate_data.py+5-0
+
+python scripts/generate_data.py
+The TypeError has been fixed by ensuring all datetime objects in the comparison are timezone-aware. The script now runs successfully and generates the data as expected.
+
+If you need further improvements or encounter any other issues, let me know!
